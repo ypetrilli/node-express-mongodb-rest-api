@@ -1,16 +1,13 @@
-require('dotenv').config(); //import content form .env file
-
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require("cors");
-const routes = require('./routes/article.route');
+
 const app = express();
+const routes = require('./routes/article.route');
+const config = require('./config/db.config');
 
-const DATABASE_URL = process.env.DATABASE_URL; //Get database connection url
-const PORT = process.env.PORT || 8080; // Get app running port
-
-mongoose.connect(DATABASE_URL);
+mongoose.connect(config.url);
 const database = mongoose.connection;
 
 database.on('error', (error) => {
@@ -31,6 +28,6 @@ app.get('/', (req, res) => {
     res.json({"message": "Welcome to Node Express Articles Rest API"});
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}.`);
+app.listen(config.port, () => {
+    console.log(`Server is running on port ${config.port}.`);
 });
