@@ -1,4 +1,4 @@
-const Article = require('../models/article.model.js');
+const Article = require("../models/article.model.js");
 
 // Create and Save a new Article
 exports.create = (req, res) => {
@@ -28,16 +28,23 @@ exports.create = (req, res) => {
     });
 };
 
-// Retrieve all Articles from the database (Allows to filter by title)
+// Retrieve all Articles from the database (Allows to filter by title). page= 0, size=5 as default
 exports.findAll = (req, res) => {
-  const title = req.query.title;
+  const { page, size, title } = req.query;
   const condition = title
     ? { title: { $regex: new RegExp(title), $options: "i" } }
     : {};
 
-  Article.find(condition)
+  const { limit, offset } = getPagination(page, size);
+
+  Article.paginate(condition, { offset, limit })
     .then((data) => {
-      res.send(data);
+      res.send({
+        totalItems: data.totalDocs,
+        articles: data.docs,
+        totalPages: data.totalPages,
+        currentPage: data.page - 1,
+      });
     })
     .catch((err) => {
       res.status(500).send({
@@ -65,15 +72,22 @@ exports.findOne = (req, res) => {
 
 // Find all published Articles
 exports.findAllPublished = (req, res) => {
-  Article.find({ published: true })
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+
+  Article.paginate({ published: true }, { offset, limit })
     .then((data) => {
-      res.send(data);
+      res.send({
+        totalItems: data.totalDocs,
+        articles: data.docs,
+        totalPages: data.totalPages,
+        currentPage: data.page - 1,
+      });
     })
     .catch((err) => {
       res.status(500).send({
         message:
-          err.message ||
-          "An error occurred while retrieving the published Articles.",
+          err.message || "Some error occurred while retrieving articles.",
       });
     });
 };
@@ -141,4 +155,12 @@ exports.deleteAll = (req, res) => {
           err.message || "Some error occurred while removing the Articles.",
       });
     });
+};
+
+//Pagination
+const getPagination = (page, size) => {
+  const limit = size ? + size : 5;
+  const offset = page ? page * limit : 0;
+
+  return { limit, offset };
 };
