@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const pagination = require("mongoose-paginate-v2");
 
 // Creating Article Schema
 const Article = new mongoose.Schema({
@@ -15,6 +16,9 @@ Article.method("toJSON", function() {
   object.id = _id;
   return object;
 });
+
+//
+Article.plugin(pagination);
 
 //TODO: Try ‘virtuals’ as alternative to replace _id by id
 // ‘virtuals’, which are essentially fake fields that Mongoose creates. 
