@@ -1,4 +1,4 @@
-const Article = require("../models/article.model.js");
+const Article = require("../models/Article.js");
 
 // Create and Save a new Article
 exports.create = (req, res) => {
