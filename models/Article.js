@@ -17,7 +17,7 @@ Article.method("toJSON", function() {
   return object;
 });
 
-//
+//add pagination to schema
 Article.plugin(pagination);
 
 //TODO: Try ‘virtuals’ as alternative to replace _id by id
