@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 
 const app = express();
-const routes = require('./routes/article.route');
-const config = require('./config/db.config');
+const routes = require('./src/routes/article.route');
+const config = require('./src/config/db.config');
 
 mongoose.connect(config.url);
 const database = mongoose.connection;
