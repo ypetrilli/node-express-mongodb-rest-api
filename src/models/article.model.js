@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const pagination = require("mongoose-paginate-v2");
 
-// Creating Article Schema
 const Article = new mongoose.Schema({
         title: { type: String, required: true },
         description: { type: String, required: false },
