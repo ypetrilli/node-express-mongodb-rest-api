@@ -30,6 +30,9 @@ const updateArticle = async (id, article) => {
   return Article.findByIdAndUpdate(id, article, { useFindAndModify: false });
 };
 
+//findOneAndDelete({ _id: id });
+//findByIdAndRemove
+
 module.exports.addArticle = addArticle;
 module.exports.deleteArticle = deleteArticle;
 module.exports.findArticleById = findArticleById;
