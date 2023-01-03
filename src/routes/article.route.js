@@ -78,7 +78,7 @@ router.get("/article/:id", async (req, res, next) => {
     const articleId = req.params.id;
 
     if (!articleId.match(/^[0-9a-fA-F]{24}$/)) {
-      res.status(404).send({ message: "Article id not valid: " + articleId });
+      res.status(404).send({ message: `Article id not valid: ${articleId}`});
     }
 
     const art = await findArticleById(articleId);
